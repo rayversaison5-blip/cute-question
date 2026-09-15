@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Question</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+        }
+
+        .btn-container {
+            position: relative;
+            margin-top: 20px;
+            height: 100px;
+            width: 300px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        #noBtn {
+            background-color: #dc3545;
+            color: white;
+            right: 40px;
+        }
+
+        #yesBtn {
+            background-color: #198754;
+            color: white;
+            left: 40px;
+            transition: 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cute ba si Jelyn?</h1>
+
+    <div class="btn-container">
+        <button id="yesBtn" onmouseover="moveYesButton()" onclick="moveYesButton()">Yes</button>
+        <button id="noBtn" onclick="alert('Bakit No?! 😅')">No</button>
+    </div>
+
+    <script>
+        function moveYesButton() {
+            const yesBtn = document.getElementById('yesBtn');
+            
+            // Generate random coordinates within the screen bounds
+            const x = Math.random() * (window.innerWidth - yesBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - yesBtn.offsetHeight);
+
+            yesBtn.style.position = 'fixed';
+            yesBtn.style.left = `${x}px`;
+            yesBtn.style.top = `${y}px`;
+        }
+    </script>
+
+</body>
+</html>
