@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #ffe6e8;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      color: #d63384;
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .yes-btn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .no-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .final-message {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #d63384;
+      animation: pop 0.3s ease-out;
+    }
+
+    .liar-message {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #dc3545;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+    <h1 id="questionText">pogi ba si rayver?</h1>
+    
+    <div class="btn-container" id="btnContainer">
+      <button id="btnLeft" class="yes-btn">Yes</button>
+      <button id="btnRight" class="no-btn">No</button>
+    </div>
+  </div>
+
+  <script>
+    let step = 1;
+    let isSwapped = false;
+
+    const questionText = document.getElementById('questionText');
+    const btnContainer = document.getElementById('btnContainer');
+    const btnLeft = document.getElementById('btnLeft');
+    const btnRight = document.getElementById('btnRight');
+    const card = document.getElementById('card');
+
+    // Function to swap buttons
+    function swapButtons() {
+      if (step === 1) {
+        if (!isSwapped) {
+          btnContainer.style.flexDirection = 'row-reverse';
+          isSwapped = true;
+        } else {
+          btnContainer.style.flexDirection = 'row';
+          isSwapped = false;
+        }
+      }
+    }
+
+    // Trigger button swap on hover or touch when hovering over "No"
+    btnRight.addEventListener('mouseenter', () => {
+      if (step === 1 && btnRight.textContent === 'No') {
+        swapButtons();
+      }
+    });
+
+    btnLeft.addEventListener('mouseenter', () => {
+      if (step === 1 && btnLeft.textContent === 'No') {
+        swapButtons();
+      }
+    });
+
+    // Handle clicks based on current step
+    function handleAnswer(answer) {
+      if (step === 1) {
+        if (answer === 'Yes') {
+          // Move to step 2: Follow-up question
+          step = 2;
+          questionText.textContent = "tulad ni joshua garcia?";
+          
+          // Reset button positions & labels
+          btnContainer.style.flexDirection = 'row';
+          btnLeft.textContent = 'Yes';
+          btnLeft.className = 'yes-btn';
+          btnRight.textContent = 'No';
+          btnRight.className = 'no-btn';
+        }
+      } else if (step === 2) {
+        if (answer === 'Yes') {
+          // Final success screen
+          card.innerHTML = `<div class="final-message">THANK YOU! ❤️</div>`;
+        } else if (answer === 'No') {
+          // Liar screen
+          card.innerHTML = `
+            <div class="liar-message">LIAR! 🤥</div>
+            <button onclick="location.reload()" style="margin-top: 20px; background-color: #6c757d; color: white;">Try Again</button>
+          `;
+        }
+      }
+    }
+
+    btnLeft.addEventListener('click', () => handleAnswer(btnLeft.textContent));
+    btnRight.addEventListener('click', () => handleAnswer(btnRight.textContent));
+  </script>
+
+</body>
+</html>
